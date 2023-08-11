@@ -21,6 +21,7 @@ export interface ConfettiProps extends Omit<React.HTMLAttributes<HTMLDivElement>
   width?: number;
   zIndex?: number;
   onComplete?: () => void;
+  noGravity?: boolean;
 }
 
 const createParticles = (count: number, colors: string[]): IParticle[] => {
@@ -41,6 +42,7 @@ function ConfettiExplosion({
   width = WIDTH,
   zIndex,
   onComplete,
+  noGravity,
   ...props
 }: ConfettiProps) {
   const [origin, setOrigin] = React.useState<{ top: number; left: number }>();
@@ -52,6 +54,7 @@ function ConfettiExplosion({
     force,
     width,
     height,
+    noGravity,
   })();
 
   const originRef = React.useCallback((node: HTMLDivElement) => {

@@ -2,6 +2,7 @@ import { createUseStyles } from 'react-jss';
 import round from 'lodash/round';
 
 import { coinFlip, mapRange, rotate, rotationTransforms, shouldBeCircle } from './utils';
+import { noGravityConfettiKeyframes, noGravityConfettoStyle } from './noGravity';
 
 const ROTATION_SPEED_MIN = 200; // minimum possible duration of single particle full rotation
 const ROTATION_SPEED_MAX = 800; // maximum possible duration of single particle full rotation
@@ -27,6 +28,7 @@ interface IParticlesProps {
   force: number;
   height: number | string;
   width: number;
+  noGravity?: boolean;
 }
 
 const rotationKeyframes = rotationTransforms.reduce((acc, xyz, i) => {
@@ -107,22 +109,22 @@ const confettoStyle = (particle: IParticle, duration: number, force: number, siz
   };
 };
 
-const useStyles = ({ particles, duration, height, width, force, particleSize }: IParticlesProps) => {
+const useStyles = ({ particles, duration, height, width, force, particleSize, noGravity }: IParticlesProps) => {
   const confettiStyles = particles.reduce(
     (acc, particle, i) => ({
       ...acc,
-      ...confettoStyle(particle, duration, force, particleSize, i),
+      ...(noGravity ? noGravityConfettoStyle() : confettoStyle(particle, duration, force, particleSize, i)),
     }),
     {}
   );
   return createUseStyles(
     {
       ...rotationKeyframes,
-      ...confettiKeyframes(
+      ...(noGravity ? noGravityConfettiKeyframes() : confettiKeyframes(
         particles.map(particle => particle.degree),
         height,
         width
-      ),
+      )),
       container: {
         width: 0,
         height: 0,
