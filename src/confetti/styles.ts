@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 import round from 'lodash/round';
 
 import { coinFlip, mapRange, rotate, rotationTransforms, shouldBeCircle } from './utils';
-import { noGravityConfettiKeyframes, noGravityConfettoStyle } from './noGravity';
+import { noGravityConfettiKeyframes } from './noGravity';
 
 const ROTATION_SPEED_MIN = 200; // minimum possible duration of single particle full rotation
 const ROTATION_SPEED_MAX = 800; // maximum possible duration of single particle full rotation
@@ -66,7 +66,7 @@ const confettiKeyframes = (degrees: number[], height: number | string, width: nu
       },
     },
     ...xLandingPoints,
-  };
+  } as Record<string, {to: {transform: string}}>;
 };
 
 const confettoStyle = (particle: IParticle, duration: number, force: number, size: number, i: number) => {
@@ -109,22 +109,51 @@ const confettoStyle = (particle: IParticle, duration: number, force: number, siz
   };
 };
 
+const noGravityConfettoStyle = (particle: IParticle, duration: number, force: number, size: number, i: number) => {
+  const rotation = Math.round(Math.random() * (ROTATION_SPEED_MAX - ROTATION_SPEED_MIN) + ROTATION_SPEED_MIN);
+  const rotationIndex = Math.round(Math.random() * (rotationTransforms.length - 1));
+  const durationChaos = duration - Math.round(Math.random() * 1000);
+  const shouldBeCrazy = Math.random() < CRAZY_PARTICLES_FREQUENCY;
+  const isCircle = shouldBeCircle(rotationIndex);
+
+  return {
+    [`&#confetti-particle-${i}`]: {
+      '& > div': {
+        width: isCircle ? size : Math.round(Math.random() * 4) + size / 2,
+        height: isCircle ? size : Math.round(Math.random() * 2) + size,
+        animation: `$position-${i} ${durationChaos}ms forwards cubic-bezier(0.215, 0.61, 0.355, 1)`,
+        '&:after': {
+          backgroundColor: particle.color,
+          animation: `$rotation-${rotationIndex} ${rotation}ms infinite linear`,
+          ...(isCircle ? { borderRadius: '50%' } : {}),
+        },
+      },
+    },
+  };
+};
+
 const useStyles = ({ particles, duration, height, width, force, particleSize, noGravity }: IParticlesProps) => {
   const confettiStyles = particles.reduce(
     (acc, particle, i) => ({
       ...acc,
-      ...(noGravity ? noGravityConfettoStyle() : confettoStyle(particle, duration, force, particleSize, i)),
+      ...(noGravity ? noGravityConfettoStyle(particle, duration, force, particleSize, i) : confettoStyle(particle, duration, force, particleSize, i)),
     }),
     {}
   );
   return createUseStyles(
     {
       ...rotationKeyframes,
-      ...(noGravity ? noGravityConfettiKeyframes() : confettiKeyframes(
-        particles.map(particle => particle.degree),
-        height,
-        width
-      )),
+      ...(noGravity
+        ? noGravityConfettiKeyframes(
+            particles.map(particle => particle.degree),
+            height,
+            width
+          )
+        : confettiKeyframes(
+            particles.map(particle => particle.degree),
+            height,
+            width
+          )),
       container: {
         width: 0,
         height: 0,
