@@ -1,5 +1,10 @@
+const DESTINATION_DEVIATION = 0.25;
+
 const calculateEllipseEndpoint = (width: number, height: number, degree: number) => {
   const angleRadians = (degree * Math.PI) / 180;
+
+  width += width * Math.random() * DESTINATION_DEVIATION;
+  height += height * Math.random() * DESTINATION_DEVIATION;
 
   return {
     x: (width / 2) * Math.cos(angleRadians),

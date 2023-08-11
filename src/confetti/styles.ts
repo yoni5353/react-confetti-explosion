@@ -116,12 +116,16 @@ const noGravityConfettoStyle = (particle: IParticle, duration: number, force: nu
   const shouldBeCrazy = Math.random() < CRAZY_PARTICLES_FREQUENCY;
   const isCircle = shouldBeCircle(rotationIndex);
 
+  const x1 = shouldBeCrazy ? round(Math.random() * CRAZY_PARTICLE_CRAZINESS, 2) : 0;
+  const x2 = round(Math.random() * force, 4);
+  const x3 = round(1 - force, 4);
+
   return {
     [`&#confetti-particle-${i}`]: {
       '& > div': {
         width: isCircle ? size : Math.round(Math.random() * 4) + size / 2,
         height: isCircle ? size : Math.round(Math.random() * 2) + size,
-        animation: `$position-${i} ${durationChaos}ms forwards cubic-bezier(0.215, 0.61, 0.355, 1)`,
+        animation: `$position-${i} ${durationChaos}ms forwards cubic-bezier(${x1}, ${x2}, ${x3}, 1)`,
         '&:after': {
           backgroundColor: particle.color,
           animation: `$rotation-${rotationIndex} ${rotation}ms infinite linear`,
