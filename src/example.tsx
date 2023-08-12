@@ -25,10 +25,22 @@ const largeProps: ConfettiProps = {
   colors: ['#041E43', '#1471BF', '#5BB4DC', '#FC027B', '#66D805'],
 };
 
+const noGravityProps: ConfettiProps = {
+  noGravity: true,
+  duration: 1000,
+  width: 50,
+  height: 50,
+  force: 0.8,
+  particleCount: 30,
+  particleSize: 4,
+  colors: ['#23009A', '#3C00FF', '#9B73AF', '#E5B4E3', '#EDE2F7'],
+};
+
 function Example() {
   const [isSmallExploding, setIsSmallExploding] = React.useState(false);
   const [isMediumExploding, setIsMediumExploding] = React.useState(false);
   const [isLargeExploding, setIsLargeExploding] = React.useState(false);
+  const [isNoGravityExploding, setIsNoGravityExploding] = React.useState(false);
 
   return (
     <div className="app">
@@ -43,6 +55,12 @@ function Example() {
       <button className="button" onClick={() => setIsLargeExploding(!isLargeExploding)}>
         {isLargeExploding && <ConfettiExplosion {...largeProps} />}
         <span>large</span>
+      </button>
+      <button className="button" onClick={() => setIsNoGravityExploding(!isNoGravityExploding)}>
+        {isNoGravityExploding && (
+          <ConfettiExplosion {...noGravityProps} onComplete={() => setIsNoGravityExploding(false)} />
+        )}
+        <span>no gravity</span>
       </button>
     </div>
   );

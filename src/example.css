@@ -38,7 +38,7 @@ body {
 
 .button > div {
   margin-inline: auto;
-  top: -20px;
+  top: -100px;
 }
 
 @media only screen and (min-width: 600px) {
