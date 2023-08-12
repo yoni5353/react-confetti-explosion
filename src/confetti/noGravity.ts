@@ -23,9 +23,9 @@ const calculateEllipseEndpoint = (width: number, height: number, degree: number)
   };
 };
 
-export const noGravityConfettiKeyframes = (degrees: number[], height: number | string, width: number) => {
+export const noGravityConfettiKeyframes = (degrees: number[], height: number, width: number) => {
   return degrees.reduce((acc, degree, i) => {
-    const { x, y } = calculateEllipseEndpoint(width, height as number, degree);
+    const { x, y } = calculateEllipseEndpoint(width, height, degree);
 
     acc[`@keyframes position-${i}`] = {
       to: {
