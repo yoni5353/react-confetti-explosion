@@ -1,4 +1,5 @@
 ## NoGravity Variation
+
 A quick fork to react-confetti-explosion that adds a no-gravity variation for a
 an elliptic confetti effect.
 
@@ -9,6 +10,7 @@ The width and height properties are used to determine the size of the explosion 
 > \* The height prop has be to a `number` in `px` when using noGravity.
 
 ### Usage
+
 ```jsx
 <ConfettiExplosion
   width={50}

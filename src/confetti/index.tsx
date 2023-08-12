@@ -78,11 +78,7 @@ function ConfettiExplosion({
           <div className={classes.screen} {...(zIndex ? { style: { zIndex } } : null)}>
             <div style={{ position: 'absolute', top: origin.top, left: origin.left }}>
               {particles.map((particle, i) => (
-                <div
-                  id={`confetti-particle-${i}`}
-                  className={classes.particle}
-                  key={particle.degree}
-                >
+                <div id={`confetti-particle-${i}`} className={classes.particle} key={particle.degree}>
                   <div></div>
                 </div>
               ))}
