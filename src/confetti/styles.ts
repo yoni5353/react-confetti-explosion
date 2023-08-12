@@ -66,7 +66,7 @@ const confettiKeyframes = (degrees: number[], height: number | string, width: nu
       },
     },
     ...xLandingPoints,
-  } as Record<string, { to: { transform: string } }>;
+  } as Record<string, object>;
 };
 
 const confettoStyle = (particle: IParticle, duration: number, force: number, size: number, i: number) => {

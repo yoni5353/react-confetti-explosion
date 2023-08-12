@@ -9,7 +9,7 @@ import {
 } from './styles';
 import { rotationTransforms, shouldBeCircle } from './utils';
 
-const DESTINATION_DEVIATION = 0.25;
+const DESTINATION_DEVIATION = 0.5;
 
 const calculateEllipseEndpoint = (width: number, height: number, degree: number) => {
   const angleRadians = (degree * Math.PI) / 180;
@@ -30,10 +30,11 @@ export const noGravityConfettiKeyframes = (degrees: number[], height: number | s
     acc[`@keyframes position-${i}`] = {
       to: {
         transform: `translate(${x}px, ${y}px)`,
+        visibility: 'hidden',
       },
     };
     return acc;
-  }, {} as Record<string, { to: { transform: string } }>);
+  }, {} as Record<string, object>);
 };
 
 export const noGravityConfettoStyle = (
