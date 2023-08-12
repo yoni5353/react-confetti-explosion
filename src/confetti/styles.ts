@@ -110,10 +110,6 @@ const confettoStyle = (particle: IParticle, duration: number, force: number, siz
 };
 
 const useStyles = ({ particles, duration, height, width, force, particleSize, noGravity }: IParticlesProps) => {
-  if (typeof height === 'string') {
-    throw new Error('Height must be a number when using noGravity');
-  }
-
   const confettiStyles = particles.reduce(
     (acc, particle, i) => ({
       ...acc,

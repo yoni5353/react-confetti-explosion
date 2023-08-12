@@ -23,10 +23,13 @@ const calculateEllipseEndpoint = (width: number, height: number, degree: number)
   };
 };
 
-export const noGravityConfettiKeyframes = (degrees: number[], height: number, width: number) => {
+export const noGravityConfettiKeyframes = (degrees: number[], height: number | string, width: number) => {
   return degrees.reduce((acc, degree, i) => {
-    const { x, y } = calculateEllipseEndpoint(width, height, degree);
+    if (typeof height === 'string') {
+      throw new Error('Height must be a number when using noGravity');
+    }
 
+    const { x, y } = calculateEllipseEndpoint(width, height, degree);
     acc[`@keyframes position-${i}`] = {
       to: {
         transform: `translate(${x}px, ${y}px)`,
